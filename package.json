@@ -1,7 +1,7 @@
 {
   "name": "calendario-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -20,6 +20,13 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^11.1.0",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^9.2.6",
+    "@semantic-release/npm": "^11.0.3",
+    "@semantic-release/release-notes-generator": "^12.1.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
@@ -30,6 +37,7 @@
     "gh-pages": "^6.3.0",
     "globals": "^16.3.0",
     "postcss": "^8.5.6",
+    "semantic-release": "^22.0.12",
     "tailwindcss": "^4.1.12",
     "vite": "^7.1.2"
   }
