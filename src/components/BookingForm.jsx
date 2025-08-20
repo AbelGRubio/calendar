@@ -17,17 +17,16 @@ export default function BookingForm({ selectedDay, selectedSlot, onBack }) {
     const loadingToast = toast.loading("Booking in progress...");
 
     try {
-      console.log(selectedDay, selectedSlot);
 
-      const res = await fetch("http://localhost:8000/v1/book", {
+      const res = await fetch("/v1/book", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
           email,
           message,
-          date: selectedDay,  // YYYY-MM-DD
-          time: selectedSlot, // HH:mm
+          date: selectedDay,  
+          time: selectedSlot, 
         }),
       });
 
