@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/AbelGRubio/calendar/compare/v1.0.1...v1.0.2) (2025-08-20)
+
+
+### Bug Fixes
+
+* **Abel:** update deployt to master branch ([039ac0c](https://github.com/AbelGRubio/calendar/commit/039ac0c51dc98d2de9c4490f4162a0dd369b4b30))
+
 ## [1.0.1](https://github.com/AbelGRubio/calendar/compare/v1.0.0...v1.0.1) (2025-08-20)
 
 
