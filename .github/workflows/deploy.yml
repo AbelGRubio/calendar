@@ -3,7 +3,7 @@ name: Build & Deploy Vite App
 on:
   push:
     branches:
-      - main   # o la rama que uses como principal
+      - master
 
 jobs:
   build-and-deploy:
