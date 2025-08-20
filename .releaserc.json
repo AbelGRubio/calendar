@@ -1,0 +1,24 @@
+{
+  "branches": ["main"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    "@semantic-release/npm",
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "node scripts/updateConstants.cjs ${nextRelease.version}"
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["package-lock.json", "CHANGELOG.md", "package.json", "src/constants.tsx"],
+        "message": "v${nextRelease.version}"
+      }
+    ],
+    "@semantic-release/github"
+
+  ]
+}
