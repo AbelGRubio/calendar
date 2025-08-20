@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/AbelGRubio/calendar/compare/v1.0.0...v1.0.1) (2025-08-20)
+
+
+### Bug Fixes
+
+* **abel:** update deploy ([8bdca5d](https://github.com/AbelGRubio/calendar/commit/8bdca5dda0ebbae323b88b3814c1866ae7b0ba80))
+
 # 1.0.0 (2025-08-20)
 
 
