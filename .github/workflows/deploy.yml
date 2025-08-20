@@ -1,9 +1,9 @@
-name: Deploy React Vite to GitHub Pages
+name: Build & Deploy Vite App
 
 on:
   push:
     branches:
-      - master
+      - main   # o la rama que uses como principal
 
 jobs:
   build-and-deploy:
@@ -12,20 +12,25 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: '18'   # puedes usar 20 si tu proyecto lo requiere
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
+      - name: Build Vite project
         run: npm run build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v5
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+          publish_branch: gh-pages
+          force_orphan: true
+          commit_message: 'Deploy Vite app via GitHub Actions'
