@@ -18,7 +18,7 @@ export default function BookingForm({ selectedDay, selectedSlot, onBack }) {
 
     try {
 
-      const res = await fetch("/v1/book", {
+      const res = await fetch("https://fastapi-agr.vercel.app/api/py/book", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
