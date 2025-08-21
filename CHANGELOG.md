@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/AbelGRubio/calendar/compare/v1.0.2...v1.0.3) (2025-08-20)
+
+
+### Bug Fixes
+
+* **Abel:** first commit ([a56e2c6](https://github.com/AbelGRubio/calendar/commit/a56e2c6ff34daa4e475a91d7f8f935779da97de5))
+
 ## [1.0.2](https://github.com/AbelGRubio/calendar/compare/v1.0.1...v1.0.2) (2025-08-20)
 
 
