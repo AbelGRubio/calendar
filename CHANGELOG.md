@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/AbelGRubio/calendar/compare/v1.0.5...v1.0.6) (2025-08-21)
+
+
+### Bug Fixes
+
+* **abel:** added axios api ([9d2b4fb](https://github.com/AbelGRubio/calendar/commit/9d2b4fb45a8e1dc2a4571649cce31e0a4eaec5eb))
+
 ## [1.0.5](https://github.com/AbelGRubio/calendar/compare/v1.0.4...v1.0.5) (2025-08-21)
 
 
