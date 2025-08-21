@@ -1,20 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import BookingForm from "./BookingForm";
+import api from "./axio.interceptor";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export default function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(dayjs());
-  const [selectedDay, setSelectedDay] = useState(null);
+  const [selectedDay, setSelectedDay] = useState(dayjs().format("YYYY-MM-DD"));
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [availableSlots, setAvailableSlots] = useState([]);
 
   const today = dayjs().startOf("day");
   const startOfMonth = currentMonth.startOf("month");
   const endOfMonth = currentMonth.endOf("month");
+
+  useEffect(() => {
+    const fetchSlots = async () => {
+      try {
+        const res = await api.get(
+          `/available-slots?date=${selectedDay}`
+        );
+        setAvailableSlots(res.data.available_slots || []);
+      } catch (error) {
+        console.error("Error fetching slots", error);
+        setAvailableSlots([]);
+      }
+    };
+
+    if (selectedDay) {
+      fetchSlots();
+    }
+  }, [selectedDay]);
 
   // Generate days of the current month
   const daysInMonth = [];
@@ -26,65 +46,45 @@ export default function Calendar() {
     daysInMonth.push(d);
   }
 
-  // Weekdays
   const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-  // Generate slots in Madrid timezone
-  const generateSlots = (startHour, endHour) => {
-    const slots = [];
-    for (let hour = startHour; hour < endHour; hour++) {
-      slots.push(
-        dayjs().tz("Europe/Madrid").hour(hour).minute(0).format("HH:mm")
-      );
-      slots.push(
-        dayjs().tz("Europe/Madrid").hour(hour).minute(30).format("HH:mm")
-      );
-    }
-    return slots;
-  };
-
-  const slots = [
-    ...generateSlots(11, 14), // Morning
-    ...generateSlots(15, 18), // Afternoon
-  ];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 boder rounded-lg p-4 shadow-xl">
       {/* Left: Summary */}
-        <div className="">
+      <div className="">
         <h2 className="text-xl font-bold mb-2">30 Minute Meeting</h2>
         <p className="text-gray-500 mb-4">
-            Web conferencing details provided upon confirmation.
+          Web conferencing details provided upon confirmation.
         </p>
         <div className="space-y-2 text-sm">
-            <p>
+          <p>
             <strong>Date:</strong>{" "}
             {selectedDay
-                ? dayjs(selectedDay).format("dddd, MMMM D, YYYY")
-                : "Not selected"}
-            </p>
-            <p>
+              ? dayjs(selectedDay).format("dddd, MMMM D, YYYY")
+              : "Not selected"}
+          </p>
+          <p>
             <strong>Time:</strong> {selectedSlot || "Not selected"}
-            </p>
-            <p>
+          </p>
+          <p>
             <strong>Timezone:</strong> Europe/Madrid
-            </p>
+          </p>
         </div>
 
-        {/* Aviso extra */}
         <p className="text-xs text-gray-500 mt-4 italic">
-            * The selected time may be subject to change.
+          * The selected time may be subject to change.
         </p>
-        </div>
+      </div>
 
       {/* Right: Calendar + Slots/Form */}
       <div className="col-span-2">
-        {/* Calendar header */}
         {!selectedSlot && (
           <>
             <div className="flex justify-between items-center mb-4">
               <button
-                onClick={() => setCurrentMonth(currentMonth.subtract(1, "month"))}
+                onClick={() =>
+                  setCurrentMonth(currentMonth.subtract(1, "month"))
+                }
                 className="px-2 py-1 rounded hover:bg-gray-200"
               >
                 ←
@@ -111,7 +111,6 @@ export default function Calendar() {
 
             {/* Days */}
             <div className="grid grid-cols-7 gap-2 text-center">
-              {/* empty slots before first day */}
               {Array.from({ length: (startOfMonth.day() + 6) % 7 }).map(
                 (_, i) => (
                   <div key={`empty-${i}`} />
@@ -140,8 +139,7 @@ export default function Calendar() {
                           ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                           : "hover:bg-blue-100"
                       } 
-                      ${isSelected ? "bg-blue-500 text-blue" : ""}
-                    `}
+                      ${isSelected ? "bg-blue-500 text-blue" : ""}`}
                   >
                     {d.date()}
                   </button>
@@ -151,35 +149,37 @@ export default function Calendar() {
 
             {/* Slots */}
             {selectedDay && (
-            <div className="mt-6">
+              <div className="mt-6">
                 <h3 className="text-md font-semibold mb-2">
-                {dayjs(selectedDay).format("dddd, MMMM D")}
+                  {dayjs(selectedDay).format("dddd, MMMM D")}
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                {slots.map((slot) => (
-                    <button
-                    key={slot}
-                    onClick={() => setSelectedSlot(slot)}
-                    className=" rounded-lg py-2 hover:bg-blue-100"
-                    >
-                    {slot}
-                    </button>
-                ))}
+                  {availableSlots.length > 0 ? (
+                    availableSlots.map((slot) => (
+                      <button
+                        key={slot}
+                        onClick={() => setSelectedSlot(slot)}
+                        className="rounded-lg py-2 hover:bg-blue-100"
+                      >
+                        {slot}
+                      </button>
+                    ))
+                  ) : (
+                    <p className="text-gray-400">No slots available</p>
+                  )}
                 </div>
-            </div>
+              </div>
             )}
           </>
         )}
 
         {/* Form */}
         {selectedSlot && (
-            <>
-            <BookingForm
+          <BookingForm
             selectedDay={selectedDay}
             selectedSlot={selectedSlot}
-            onBack={() => setSelectedSlot(null)} // esto hace que vuelva a mostrar slots
-            />
-            </>
+            onBack={() => setSelectedSlot(null)}
+          />
         )}
       </div>
     </div>

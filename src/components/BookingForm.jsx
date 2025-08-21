@@ -1,8 +1,7 @@
 import { useState } from "react";
 import dayjs from "dayjs";
 import { toast } from 'sonner';
-import axios from "axios";
-
+import api from "./axio.interceptor"
 
 export default function BookingForm({ selectedDay, selectedSlot, onBack }) {
   const [name, setName] = useState("");
@@ -19,8 +18,8 @@ export default function BookingForm({ selectedDay, selectedSlot, onBack }) {
     const loadingToast = toast.loading("Booking in progress...");
 
     try {
-      //https://fastapi-agr.vercel.app/api/py
-      const res = await axios.post("https://fastapi-agr.vercel.app/api/py/book", {
+      
+      const res = await api.post("/book", {
         name,
         email,
         message,
