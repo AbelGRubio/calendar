@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/AbelGRubio/calendar/compare/v1.0.3...v1.0.4) (2025-08-21)
+
+
+### Bug Fixes
+
+* **Abel:** change back api ([a4c3435](https://github.com/AbelGRubio/calendar/commit/a4c34356f667f6798e72e771042c918b9b8a5874))
+
 ## [1.0.3](https://github.com/AbelGRubio/calendar/compare/v1.0.2...v1.0.3) (2025-08-20)
 
 
