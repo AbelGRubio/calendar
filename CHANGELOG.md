@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/AbelGRubio/calendar/compare/v1.0.4...v1.0.5) (2025-08-21)
+
+
+### Bug Fixes
+
+* **Abel:** changed icon and login in reservation ([d5d35c0](https://github.com/AbelGRubio/calendar/commit/d5d35c0892db0c0f10e6498811ae333515271722))
+
 ## [1.0.4](https://github.com/AbelGRubio/calendar/compare/v1.0.3...v1.0.4) (2025-08-21)
 
 
