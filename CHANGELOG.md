@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/AbelGRubio/calendar/compare/v1.0.6...v1.1.0) (2025-08-25)
+
+
+### Features
+
+* **Abel:** added feature get holidays ([6e308f9](https://github.com/AbelGRubio/calendar/commit/6e308f9d7d1228f4e8f92706fbae7474f654b745))
+
 ## [1.0.6](https://github.com/AbelGRubio/calendar/compare/v1.0.5...v1.0.6) (2025-08-21)
 
 
