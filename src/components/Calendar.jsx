@@ -13,17 +13,17 @@ export default function Calendar() {
   const [selectedDay, setSelectedDay] = useState(dayjs().format("YYYY-MM-DD"));
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [availableSlots, setAvailableSlots] = useState([]);
+  const [holidays, setHolidays] = useState([]);
 
   const today = dayjs().startOf("day");
   const startOfMonth = currentMonth.startOf("month");
   const endOfMonth = currentMonth.endOf("month");
 
+  // Fetch available slots for selected day
   useEffect(() => {
     const fetchSlots = async () => {
       try {
-        const res = await api.get(
-          `/available-slots?date=${selectedDay}`
-        );
+        const res = await api.get(`/available-slots?date=${selectedDay}`);
         setAvailableSlots(res.data.available_slots || []);
       } catch (error) {
         console.error("Error fetching slots", error);
@@ -31,10 +31,22 @@ export default function Calendar() {
       }
     };
 
-    if (selectedDay) {
-      fetchSlots();
-    }
+    if (selectedDay) fetchSlots();
   }, [selectedDay]);
+
+  // Fetch holidays
+  useEffect(() => {
+    const fetchHolidays = async () => {
+      try {
+        const res = await api.get("/holidays");
+        setHolidays(res.data.map((h) => h.date));
+      } catch (error) {
+        console.error("Error fetching holidays", error);
+        setHolidays([]);
+      }
+    };
+    fetchHolidays();
+  }, []); // re-fetch if month changes
 
   // Generate days of the current month
   const daysInMonth = [];
@@ -48,10 +60,13 @@ export default function Calendar() {
 
   const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
+  // Check if a date is a holiday
+  const isHoliday = (dateStr) => holidays.includes(dateStr);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 boder rounded-lg p-4 shadow-xl">
       {/* Left: Summary */}
-      <div className="">
+      <div>
         <h2 className="text-xl font-bold mb-2">30 Minute Meeting</h2>
         <p className="text-gray-500 mb-4">
           Web conferencing details provided upon confirmation.
@@ -70,7 +85,6 @@ export default function Calendar() {
             <strong>Timezone:</strong> Europe/Madrid
           </p>
         </div>
-
         <p className="text-xs text-gray-500 mt-4 italic">
           * The selected time may be subject to change.
         </p>
@@ -122,24 +136,26 @@ export default function Calendar() {
                 const isWeekend = d.day() === 0 || d.day() === 6;
                 const isPastDay = d.isBefore(today, "day");
                 const isSelected = selectedDay === dayStr;
+                const holiday = isHoliday(dayStr);
 
                 return (
                   <button
                     key={dayStr}
                     onClick={() => {
-                      if (!isWeekend && !isPastDay) {
+                      if (!isWeekend && !isPastDay && !holiday) {
                         setSelectedDay(dayStr);
                         setSelectedSlot(null);
                       }
                     }}
-                    disabled={isWeekend || isPastDay}
+                    disabled={isWeekend || isPastDay || holiday}
+                    title={holiday ? "Holiday" : ""}
                     className={`p-2 rounded-lg  
                       ${
-                        isWeekend || isPastDay
+                        isWeekend || isPastDay || holiday
                           ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                           : "hover:bg-blue-100"
                       } 
-                      ${isSelected ? "bg-blue-500 text-blue" : ""}`}
+                      ${isSelected ? "bg-blue-500 text-white" : ""}`}
                   >
                     {d.date()}
                   </button>
