@@ -11,7 +11,7 @@ import { toast } from "sonner";
  * Axios instance used for making authenticated HTTP requests to the backend API.
  */
 const api = axios.create({
-  baseURL: "https://fastapi-agr.vercel.app/api/py",
+  baseURL: "https://cb-agr.vercel.app/v1",
   //baseURL: "http://localhost:8000/v1",     
   timeout: 10000,       // Request timeout (10 seconds)
 });
