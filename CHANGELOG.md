@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/AbelGRubio/calendar/compare/v1.1.0...v1.1.1) (2025-08-25)
+
+
+### Bug Fixes
+
+* **abel:** change baseURL in axio ([4f7e01b](https://github.com/AbelGRubio/calendar/commit/4f7e01bb71b36ed1cdd56fc2fcdde91003c7e904))
+
 # [1.1.0](https://github.com/AbelGRubio/calendar/compare/v1.0.6...v1.1.0) (2025-08-25)
 
 
